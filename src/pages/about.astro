@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const lang = 'es';
+---
+
+<BaseLayout title="Quiénes Somos" lang={lang}>
+  <Header lang={lang} />
+  
+  <main class="page-container">
+    <div class="container animate-fade-in">
+      <h1 class="page-title">Quiénes Somos</h1>
+      
+      <div class="about-grid">
+        <div class="about-content">
+          <p class="lead">En <strong>JD Pack Solutions</strong> nos especializamos en empaque, embalaje y soluciones logísticas personalizadas.</p>
+          
+          <p>Ubicados estratégicamente en Miami, Florida, servimos como un puente vital para empresas que buscan proteger, presentar y transportar sus productos con los más altos estándares de calidad.</p>
+          
+          <div class="mission-vision">
+            <div class="card">
+              <h3>Nuestra Misión</h3>
+              <p>Proporcionar soluciones de empaque innovadoras y de alta calidad que agreguen valor a los productos de nuestros clientes, garantizando su integridad desde la producción hasta el consumidor final.</p>
+            </div>
+            
+            <div class="card">
+              <h3>Nuestra Visión</h3>
+              <p>Ser reconocidos como el socio logístico y de empaque líder en el mercado, destacando por nuestra adaptabilidad, tecnología y compromiso con la excelencia.</p>
+            </div>
+          </div>
+          
+          <h3>¿Por qué elegirnos?</h3>
+          <ul class="features-list">
+            <li>✓ Atención personalizada y asesoría técnica.</li>
+            <li>✓ Materiales de primera calidad probados bajo estándares internacionales.</li>
+            <li>✓ Amplia cobertura y soluciones logísticas eficientes.</li>
+            <li>✓ Compromiso con la innovación y sostenibilidad.</li>
+          </ul>
+        </div>
+        
+        <div class="about-image">
+          <div class="image-placeholder" style="background-image: url('/images/products/maquinas-verticales/2-detail.webp');"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .page-container {
+    padding: var(--spacing-xl) 0;
+  }
+  
+  .page-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    position: relative;
+  }
+  
+  .page-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--color-primary);
+    margin: 1rem auto 0;
+  }
+  
+  .about-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+  }
+  
+  .lead {
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  
+  .about-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--color-gray-800);
+  }
+  
+  .mission-vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+  }
+  
+  .card {
+    background: var(--color-gray-100);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border-top: 4px solid var(--color-primary);
+  }
+  
+  .features-list {
+    list-style: none;
+    margin-top: 1rem;
+  }
+  
+  .features-list li {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-gray-800);
+  }
+  
+  .about-image {
+    position: sticky;
+    top: 100px;
+  }
+  
+  .image-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background-color: var(--color-gray-200);
+    border-radius: var(--border-radius);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  }
+  
+  @media (max-width: 992px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-image {
+      position: static;
+      order: -1;
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    .image-placeholder {
+      aspect-ratio: 16/9;
+    }
+    
+    .mission-vision {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

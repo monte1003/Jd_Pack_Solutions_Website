@@ -1,0 +1,73 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  ctaText?: string;
+  ctaLink?: string;
+  image?: string;
+}
+
+const { 
+  title, 
+  subtitle, 
+  ctaText, 
+  ctaLink = "#",
+  image = "/images/products/termoformado-flexibles/2-hero.webp" 
+} = Astro.props;
+---
+
+<section class="hero" style={`background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${image}')`}>
+  <div class="container hero-content animate-fade-in">
+    <h1 class="hero-title">{title}</h1>
+    <p class="hero-subtitle">{subtitle}</p>
+    {ctaText && (
+      <a href={ctaLink} class="btn hero-btn">{ctaText}</a>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    color: var(--color-white);
+    text-align: center;
+    position: relative;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    color: var(--color-gray-100);
+  }
+  
+  .hero-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 60vh;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+    }
+  }
+</style>

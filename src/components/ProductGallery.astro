@@ -1,0 +1,103 @@
+---
+interface Props {
+  images: { src: string; alt: string }[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="product-gallery">
+  <div class="main-image">
+    <img id="mainImage" src={images[0].src} alt={images[0].alt} />
+  </div>
+  
+  {images.length > 1 && (
+    <div class="thumbnail-list">
+      {images.map((img, index) => (
+        <button class={`thumb-btn ${index === 0 ? 'active' : ''}`} data-src={img.src} data-alt={img.alt} aria-label={`View image ${index + 1}`}>
+          <img src={img.src.replace('-detail', '-thumbnail').replace('-hero', '-thumbnail')} alt={`Thumbnail ${index + 1}`} loading="lazy" />
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+  .product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .main-image {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background-color: var(--color-gray-100);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+  
+  .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity var(--transition-speed);
+  }
+  
+  .thumbnail-list {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .thumb-btn {
+    width: 80px;
+    height: 80px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: border-color var(--transition-speed);
+  }
+  
+  .thumb-btn.active, .thumb-btn:hover {
+    border-color: var(--color-primary);
+  }
+  
+  .thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+<script>
+  const gallery = document.querySelector('.product-gallery');
+  
+  if (gallery) {
+    const mainImg = document.getElementById('mainImage') as HTMLImageElement;
+    const thumbs = document.querySelectorAll('.thumb-btn');
+    
+    thumbs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const src = btn.getAttribute('data-src');
+        const alt = btn.getAttribute('data-alt');
+        
+        if (src && mainImg) {
+          mainImg.style.opacity = '0.5';
+          setTimeout(() => {
+            mainImg.src = src;
+            if(alt) mainImg.alt = alt;
+            mainImg.style.opacity = '1';
+          }, 150);
+          
+          thumbs.forEach(t => t.classList.remove('active'));
+          btn.classList.add('active');
+        }
+      });
+    });
+  }
+</script>

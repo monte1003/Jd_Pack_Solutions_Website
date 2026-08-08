@@ -1,0 +1,79 @@
+---
+interface Props {
+  title: string;
+  image: string;
+  slug: string;
+  lang?: string;
+}
+
+const { title, image, slug, lang = 'es' } = Astro.props;
+const prefix = lang === 'es' ? '' : `/${lang}`;
+---
+
+<a href={`${prefix}/products/${slug}`} class="product-card">
+  <div class="card-image-wrap">
+    <img src={image} alt={title} loading="lazy" />
+  </div>
+  <div class="card-content">
+    <h3>{title}</h3>
+    <span class="read-more">
+      {lang === 'es' ? 'Ver detalles →' : 'View details →'}
+    </span>
+  </div>
+</a>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    height: 100%;
+    color: var(--color-black);
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+  }
+  
+  .card-image-wrap {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--color-gray-100);
+  }
+  
+  .card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .product-card:hover .card-image-wrap img {
+    transform: scale(1.05);
+  }
+  
+  .card-content {
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+  
+  .card-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .read-more {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    margin-top: auto;
+  }
+</style>

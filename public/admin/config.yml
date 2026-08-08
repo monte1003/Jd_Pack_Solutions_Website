@@ -1,0 +1,35 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/images/products"
+public_folder: "/images/products"
+
+collections:
+  - name: "products"
+    label: "Productos"
+    folder: "src/content/products"
+    create: true
+    slug: "{{category}}"
+    fields:
+      - {label: "Categoría (Slug)", name: "category", widget: "string"}
+      - {label: "Título (ES)", name: "title_es", widget: "string"}
+      - {label: "Título (EN)", name: "title_en", widget: "string"}
+      - {label: "Descripción Corta (ES)", name: "description_es", widget: "text"}
+      - {label: "Descripción Corta (EN)", name: "description_en", widget: "text"}
+      - {label: "Imagen Principal", name: "hero_image", widget: "image"}
+      - {label: "Características (ES)", name: "features_es", widget: "list", required: false}
+      - {label: "Características (EN)", name: "features_en", widget: "list", required: false}
+      - label: "Galería de Imágenes"
+        name: "gallery"
+        widget: "list"
+        required: false
+        fields:
+          - {label: "Imagen", name: "src", widget: "image"}
+          - {label: "Texto Alternativo (ES)", name: "alt_es", widget: "string"}
+          - {label: "Texto Alternativo (EN)", name: "alt_en", widget: "string"}
+      - {label: "Orden de Visualización", name: "order", widget: "number", value_type: "int", default: 0}
+      - {label: "Visible", name: "visible", widget: "boolean", default: true}
+      - {label: "Contenido Completo (Markdown separado por ***)", name: "body", widget: "markdown"}

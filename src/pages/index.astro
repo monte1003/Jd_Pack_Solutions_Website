@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+
+const lang = 'es';
+const allProducts = await getCollection('products');
+const visibleProducts = allProducts.filter(p => p.data.visible).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Inicio" lang={lang}>
+  <Header lang={lang} />
+  
+  <Hero 
+    title="Soluciones de Empaque y Logística"
+    subtitle="Profesionalismo, calidad y adaptabilidad para tus necesidades de embalaje."
+    ctaText="Ver Catálogo"
+    ctaLink="/products"
+    image="/images/products/termoformado-flexibles/2-hero.webp"
+  />
+  
+  <section class="section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>Nuestros Productos</h2>
+        <p>Explora nuestras soluciones especializadas para diversas industrias.</p>
+      </div>
+      
+      <div class="product-grid">
+        {visibleProducts.map(product => (
+          <ProductCard 
+            title={product.data.title_es}
+            image={product.data.hero_image.replace('-hero', '-thumbnail')}
+            slug={product.id}
+            lang={lang}
+          />
+        ))}
+      </div>
+      
+      <div class="text-center" style="margin-top: var(--spacing-lg);">
+        <a href="/products" class="btn btn-outline">Ver todo el catálogo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-light">
+    <div class="container">
+      <div class="grid-2">
+        <div class="about-preview animate-fade-in">
+          <h2>Sobre JD Pack Solutions</h2>
+          <p>Ubicados en Miami, Florida, somos especialistas en brindar soluciones integrales de empaque, embalaje y logística personalizada para satisfacer los requerimientos más exigentes de la industria.</p>
+          <a href="/about" class="btn" style="margin-top: var(--spacing-sm);">Conócenos</a>
+        </div>
+        <div>
+          <div class="image-placeholder" style="background-image: url('/images/products/maquinas-verticales/1-detail.webp');"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .section {
+    padding: var(--spacing-xl) 0;
+  }
+  
+  .bg-light {
+    background-color: var(--color-gray-100);
+  }
+  
+  .section-header {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+  }
+  
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+  
+  .image-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background-color: var(--color-gray-200);
+    border-radius: var(--border-radius);
+    background-size: cover;
+    background-position: center;
+  }
+  
+  @media (max-width: 768px) {
+    .grid-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

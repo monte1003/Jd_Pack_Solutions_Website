@@ -1,0 +1,177 @@
+---
+const { lang = 'es' } = Astro.props;
+
+const translations = {
+  es: {
+    about: 'Quiénes Somos',
+    products: 'Productos',
+    contact: 'Contacto'
+  },
+  en: {
+    about: 'About Us',
+    products: 'Products',
+    contact: 'Contact'
+  }
+};
+
+const t = translations[lang];
+const prefix = lang === 'es' ? '' : `/${lang}`;
+---
+
+<header class="header">
+  <div class="container header-container">
+    <a href={`${prefix}/`} class="logo-link">
+      <img src="/images/logo.svg" alt="JD Pack Solutions Logo" class="logo" />
+    </a>
+    
+    <button class="mobile-menu-btn" aria-label="Toggle menu">
+      <span class="hamburger"></span>
+    </button>
+    
+    <nav class="main-nav">
+      <ul class="nav-links">
+        <li><a href={`${prefix}/about`}>{t.about}</a></li>
+        <li><a href={`${prefix}/products`}>{t.products}</a></li>
+        <li><a href={`${prefix}/contact`}>{t.contact}</a></li>
+      </ul>
+      
+      <div class="lang-switcher">
+        <a href="/" class={lang === 'es' ? 'active' : ''}>ES</a>
+        <span class="separator">|</span>
+        <a href="/en/" class={lang === 'en' ? 'active' : ''}>EN</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-200);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+  }
+  
+  .logo {
+    height: 48px;
+    width: auto;
+  }
+  
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+  
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-md);
+  }
+  
+  .nav-links a {
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .nav-links a:hover {
+    color: var(--color-primary);
+  }
+  
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .lang-switcher a {
+    color: var(--color-gray-800);
+  }
+  
+  .lang-switcher a.active {
+    color: var(--color-primary);
+  }
+  
+  .separator {
+    color: var(--color-gray-200);
+  }
+  
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  
+  .hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-black);
+    position: relative;
+    transition: background 0.3s;
+  }
+  
+  .hamburger::before, .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--color-black);
+    transition: transform 0.3s;
+  }
+  
+  .hamburger::before { top: -6px; }
+  .hamburger::after { bottom: -6px; }
+  
+  @media (max-width: 768px) {
+    .mobile-menu-btn {
+      display: block;
+    }
+    
+    .main-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-white);
+      flex-direction: column;
+      padding: var(--spacing-md);
+      border-bottom: 1px solid var(--color-gray-200);
+      display: none;
+    }
+    
+    .main-nav.is-open {
+      display: flex;
+    }
+    
+    .nav-links {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector('.mobile-menu-btn');
+  const nav = document.querySelector('.main-nav');
+  
+  if (btn && nav) {
+    btn.addEventListener('click', () => {
+      nav.classList.toggle('is-open');
+    });
+  }
+</script>

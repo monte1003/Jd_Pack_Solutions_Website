@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Map from '../components/Map.astro';
+
+const lang = 'es';
+---
+
+<BaseLayout title="Contacto" lang={lang}>
+  <Header lang={lang} />
+  
+  <main class="page-container">
+    <div class="container animate-fade-in">
+      <h1 class="page-title">Contacto</h1>
+      
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Ponte en contacto con nosotros</h2>
+          <p>¿Tienes dudas sobre nuestros productos o necesitas una solución a medida? Estamos listos para ayudarte. Completa el formulario o contáctanos directamente a través de nuestros canales oficiales.</p>
+          
+          <div class="info-item">
+            <div class="icon">📍</div>
+            <div>
+              <h3>Ubicación</h3>
+              <p>Miami, Florida, EE.UU.</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <div class="icon">📧</div>
+            <div>
+              <h3>Email</h3>
+              <p><a href="mailto:example@gmail.com">example@gmail.com</a></p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <div class="icon">🕒</div>
+            <div>
+              <h3>Horario de Atención</h3>
+              <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>
+            </div>
+          </div>
+          
+          <div class="map-wrapper">
+            <Map />
+          </div>
+        </div>
+        
+        <div class="contact-form-wrapper">
+          <ContactForm lang={lang} />
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .page-container {
+    padding: var(--spacing-xl) 0;
+  }
+  
+  .page-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    position: relative;
+  }
+  
+  .page-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--color-primary);
+    margin: 1rem auto 0;
+  }
+  
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  .contact-info h2 {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .contact-info > p {
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.1rem;
+    color: var(--color-gray-800);
+  }
+  
+  .info-item {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+    background: var(--color-gray-100);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .info-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .info-item p {
+    color: var(--color-gray-800);
+    margin: 0;
+  }
+  
+  .map-wrapper {
+    margin-top: var(--spacing-lg);
+  }
+  
+  .contact-form-wrapper {
+    position: sticky;
+    top: 100px;
+  }
+  
+  @media (max-width: 992px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .contact-form-wrapper {
+      position: static;
+    }
+  }
+</style>

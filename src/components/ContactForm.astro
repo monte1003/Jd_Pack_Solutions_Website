@@ -1,0 +1,81 @@
+---
+const { lang = 'es' } = Astro.props;
+
+const translations = {
+  es: {
+    name: 'Nombre',
+    email: 'Correo Electrónico',
+    message: 'Mensaje',
+    submit: 'Enviar Mensaje',
+    success: '¡Gracias! Tu mensaje ha sido enviado.',
+    error: 'Hubo un error al enviar tu mensaje. Por favor, intenta de nuevo.'
+  },
+  en: {
+    name: 'Name',
+    email: 'Email',
+    message: 'Message',
+    submit: 'Send Message',
+    success: 'Thank you! Your message has been sent.',
+    error: 'There was an error sending your message. Please try again.'
+  }
+};
+
+const t = translations[lang];
+---
+
+<form class="contact-form" action="https://formspree.io/f/your_formspree_id" method="POST">
+  <div class="form-group">
+    <label for="name">{t.name}</label>
+    <input type="text" id="name" name="name" required />
+  </div>
+  
+  <div class="form-group">
+    <label for="email">{t.email}</label>
+    <input type="email" id="email" name="_replyto" required />
+  </div>
+  
+  <div class="form-group">
+    <label for="message">{t.message}</label>
+    <textarea id="message" name="message" rows="5" required></textarea>
+  </div>
+  
+  <button type="submit" class="btn submit-btn">{t.submit}</button>
+</form>
+
+<style>
+  .contact-form {
+    background: var(--color-gray-100);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+  }
+  
+  .form-group {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color var(--transition-speed);
+  }
+  
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+  
+  .submit-btn {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+  }
+</style>
