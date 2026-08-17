@@ -1,0 +1,112 @@
+---
+interface Props {
+  title: string;
+  image: string;
+  slug: string;
+  lang?: string;
+  description?: string;
+}
+
+const { title, image, slug, lang = 'en', description } = Astro.props;
+const prefix = lang === 'en' ? '' : `/${lang}`;
+---
+
+<a href={`${prefix}/categories/${slug}`} class="category-card" id={`category-${slug}`}>
+  <div class="card-image-wrap">
+    <img src={image} alt={title} loading="lazy" />
+    <div class="card-overlay"></div>
+  </div>
+  <div class="card-content">
+    <h3>{title}</h3>
+    {description && <p class="card-desc">{description}</p>}
+    <span class="card-link">
+      {lang === 'en' ? 'Explore' : 'Explorar'} →
+    </span>
+  </div>
+</a>
+
+<style>
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.4s var(--transition-smooth), box-shadow 0.4s var(--transition-smooth);
+    height: 100%;
+    color: var(--color-black);
+    text-decoration: none;
+  }
+
+  .category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  }
+
+  .card-image-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--color-gray-100);
+  }
+
+  .card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--transition-smooth);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.04) 100%);
+    transition: opacity 0.3s ease;
+  }
+
+  .category-card:hover .card-image-wrap img {
+    transform: scale(1.06);
+  }
+
+  .card-content {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-content h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+    color: var(--color-black);
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 0.88rem;
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-link {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    margin-top: auto;
+    transition: gap 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .category-card:hover .card-link {
+    gap: 0.5rem;
+  }
+</style>

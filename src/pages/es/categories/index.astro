@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import CategoryCard from '../../../components/CategoryCard.astro';
+import { getCollection } from 'astro:content';
+
+const lang = 'es';
+const allCategories = await getCollection('categories');
+const visibleCategories = allCategories.filter(c => c.data.visible).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Categorías" lang={lang}>
+  <Header lang={lang} />
+
+  <div class="page-hero">
+    <div class="container animate-fade-in">
+      <h1>Categorías</h1>
+      <p>Soluciones especializadas de empaque para diversas industrias.</p>
+    </div>
+  </div>
+
+  <main class="page-container">
+    <div class="container">
+      <div class="category-grid">
+        {visibleCategories.map(cat => (
+          <CategoryCard
+            title={cat.data.title_es}
+            image={cat.data.thumbnail}
+            slug={cat.id}
+            lang={lang}
+            description={cat.data.description_es}
+          />
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .page-hero h1::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin: 0.75rem auto 0;
+  }
+
+  .page-hero p {
+    color: var(--color-gray-300);
+    font-size: 1.15rem;
+  }
+
+  .page-container {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  @media (max-width: 576px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

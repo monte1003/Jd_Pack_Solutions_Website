@@ -1,26 +1,26 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Hero from '../components/Hero.astro';
-import CategoryCard from '../components/CategoryCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Hero from '../../components/Hero.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
 import { getCollection } from 'astro:content';
 
-const lang = 'en';
+const lang = 'es';
 const allCategories = await getCollection('categories');
 const visibleCategories = allCategories.filter(c => c.data.visible).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="Home" lang={lang} description="JD Pack Solutions - Premium packaging solutions for the dairy, protein, food, and beverage industries. Over 15 years of innovation.">
+<BaseLayout title="Inicio" lang={lang} description="JD Pack Solutions - Soluciones premium de empaque para las industrias láctea, cárnica, alimentaria y de bebidas. Más de 15 años de innovación.">
   <Header lang={lang} />
 
   <Hero
-    title="Packaging & Logistics Solutions"
-    subtitle="Professionalism, quality and adaptability for your packaging needs."
-    ctaText="Contact Us"
-    ctaLink="/contact"
-    secondaryCtaText="View Catalog"
-    secondaryCtaLink="/categories"
+    title="Soluciones de Empaque y Logística"
+    subtitle="Profesionalismo, calidad y adaptabilidad para tus necesidades de embalaje."
+    ctaText="Contáctanos"
+    ctaLink="/es/contact"
+    secondaryCtaText="Ver Catálogo"
+    secondaryCtaLink="/es/categories"
     backgroundImage="/images/hero-background.png"
   />
 
@@ -28,18 +28,18 @@ const visibleCategories = allCategories.filter(c => c.data.visible).sort((a, b) 
   <section class="section" id="categories-section">
     <div class="container">
       <div class="section-header text-center">
-        <h2>Categories</h2>
-        <p>Explore our specialized packaging solutions for various industries.</p>
+        <h2>Categorías</h2>
+        <p>Explora nuestras soluciones especializadas de empaque para diversas industrias.</p>
       </div>
 
       <div class="category-grid">
         {visibleCategories.map(cat => (
           <CategoryCard
-            title={cat.data.title_en}
+            title={cat.data.title_es}
             image={cat.data.thumbnail}
             slug={cat.id}
             lang={lang}
-            description={cat.data.description_en}
+            description={cat.data.description_es}
           />
         ))}
       </div>
@@ -51,10 +51,10 @@ const visibleCategories = allCategories.filter(c => c.data.visible).sort((a, b) 
     <div class="container">
       <div class="about-grid">
         <div class="about-text animate-fade-in">
-          <h2>About JD Pack Solutions</h2>
+          <h2>Sobre JD Pack Solutions</h2>
           <div class="about-accent-line"></div>
-          <p>JD Pack Solutions, established over 15 years ago, offers innovative, high-quality packaging solutions tailored to the dairy, protein, food, and beverage industries. Our extensive product portfolio includes printed and non-printed packaging, such as pouches, bags, specialty films, and rigid and flexible thermoforming solutions. Engineered for performance and reliability, our packaging protects your products, enhances shelf appeal, and helps your brand stand out in the marketplace.</p>
-          <a href="/about" class="btn" style="margin-top: var(--spacing-sm);" id="about-cta">Learn More</a>
+          <p>JD Pack Solutions, establecida hace más de 15 años, ofrece soluciones de empaque innovadoras y de alta calidad adaptadas a las industrias láctea, cárnica, alimentaria y de bebidas. Nuestro extenso portafolio de productos incluye empaques impresos y no impresos, como pouches, bolsas, películas especiales y soluciones de termoformado rígidas y flexibles. Diseñados para rendimiento y confiabilidad, nuestros empaques protegen sus productos, mejoran su presencia en estante y ayudan a que su marca destaque en el mercado.</p>
+          <a href="/es/about" class="btn" style="margin-top: var(--spacing-sm);" id="about-cta">Conócenos</a>
         </div>
         <div class="about-image-wrap">
           <div class="about-image" style="background-image: url('/images/categories/custom-printed-pouches/custom-printed-pouches.jpeg');"></div>

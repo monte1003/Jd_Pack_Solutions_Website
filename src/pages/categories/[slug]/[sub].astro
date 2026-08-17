@@ -1,0 +1,251 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  const paths = [];
+
+  for (const cat of categories) {
+    const subs = cat.data.subcategories || [];
+    for (const sub of subs) {
+      paths.push({
+        params: { slug: cat.id, sub: sub.slug },
+        props: { category: cat, subcategory: sub },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { category, subcategory } = Astro.props;
+const lang = 'en';
+---
+
+<BaseLayout title={`${subcategory.title_en} — ${category.data.title_en}`} lang={lang}>
+  <Header lang={lang} />
+
+  <div class="sub-hero">
+    <div class="sub-hero-bg" style={`background-image: url('${subcategory.images[0]?.src || category.data.thumbnail}')`}></div>
+    <div class="sub-hero-overlay"></div>
+    <div class="container sub-hero-content animate-fade-in">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span>/</span>
+        <a href="/categories">Categories</a> <span>/</span>
+        <a href={`/categories/${category.id}`}>{category.data.title_en}</a> <span>/</span>
+        <span class="current">{subcategory.title_en}</span>
+      </nav>
+      <h1>{subcategory.title_en}</h1>
+      {subcategory.description_en && <p class="sub-desc">{subcategory.description_en}</p>}
+    </div>
+  </div>
+
+  <main class="page-container">
+    <div class="container">
+      <!-- Product Images Gallery -->
+      <div class="gallery-section">
+        <h2>Product Gallery</h2>
+        <div class="product-gallery-grid">
+          {subcategory.images.map((img, i) => (
+            <div class="gallery-item" id={`gallery-item-${i}`}>
+              <img src={img.src} alt={img.alt_en} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Contact Banner — replaces "Solicitar Cotización" -->
+      <div class="contact-banner">
+        <div class="banner-icon">📩</div>
+        <div class="contact-banner-content">
+          <h3>Interested in this product?</h3>
+          <p>For more information, pricing, or custom specifications, please visit our Contact page. Our team is ready to help you find the perfect packaging solution.</p>
+        </div>
+        <a href="/contact" class="btn" id="subcategory-contact-cta">Contact Us</a>
+      </div>
+
+      <!-- Back Navigation -->
+      <div class="back-nav">
+        <a href={`/categories/${category.id}`} class="back-link">← Back to {category.data.title_en}</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .sub-hero {
+    position: relative;
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    overflow: hidden;
+  }
+
+  .sub-hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .sub-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(13,13,13,0.9) 0%, rgba(13,13,13,0.7) 100%);
+    z-index: 1;
+  }
+
+  .sub-hero-content {
+    position: relative;
+    z-index: 2;
+    color: var(--color-white);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb a {
+    color: var(--color-gray-300);
+    transition: color 0.2s;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-white);
+  }
+
+  .breadcrumb span {
+    color: var(--color-gray-600);
+  }
+
+  .breadcrumb .current {
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .sub-hero-content h1 {
+    color: var(--color-white);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .sub-desc {
+    color: var(--color-gray-300);
+    font-size: 1.1rem;
+    max-width: 700px;
+    line-height: 1.6;
+  }
+
+  .page-container {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .gallery-section h2 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .gallery-section h2::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin-top: 0.5rem;
+  }
+
+  .product-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .gallery-item {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background: var(--color-gray-100);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .contact-banner {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-black), var(--color-dark));
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    color: var(--color-white);
+  }
+
+  .banner-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .contact-banner-content {
+    flex: 1;
+  }
+
+  .contact-banner h3 {
+    color: var(--color-white);
+    margin-bottom: 0.25rem;
+    font-size: 1.15rem;
+  }
+
+  .contact-banner p {
+    color: var(--color-gray-300);
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .back-nav {
+    margin-top: var(--spacing-lg);
+  }
+
+  .back-link {
+    color: var(--color-gray-600);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .product-gallery-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-banner {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .banner-icon {
+      font-size: 1.5rem;
+    }
+  }
+</style>

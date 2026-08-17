@@ -1,47 +1,49 @@
 ---
-const { lang = 'es' } = Astro.props;
+const { lang = 'en' } = Astro.props;
 
 const translations = {
-  es: {
-    about: 'Quiénes Somos',
-    products: 'Productos',
-    contact: 'Contacto',
-    rights: 'Todos los derechos reservados.',
-    location: 'Miami, Florida'
-  },
   en: {
     about: 'About Us',
-    products: 'Products',
+    categories: 'Categories',
     contact: 'Contact',
+    home: 'Home',
     rights: 'All rights reserved.',
-    location: 'Miami, Florida'
+    location: 'Miami, Florida',
+    tagline: 'Premium Packaging, Wrapping & Custom Logistics Solutions.'
+  },
+  es: {
+    about: 'Quiénes Somos',
+    categories: 'Categorías',
+    contact: 'Contacto',
+    home: 'Inicio',
+    rights: 'Todos los derechos reservados.',
+    location: 'Miami, Florida',
+    tagline: 'Soluciones Premium de Empaque, Embalaje y Logística Personalizada.'
   }
 };
 
-const t = translations[lang];
-const prefix = lang === 'es' ? '' : `/${lang}`;
+const t = translations[lang as keyof typeof translations] || translations.en;
+const prefix = lang === 'en' ? '' : `/${lang}`;
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="container footer-container">
-    <div class="footer-col">
+    <div class="footer-col footer-brand">
       <img src="/images/logo.svg" alt="JD Pack Solutions Logo" class="footer-logo" />
-      <p class="company-desc">
-        Premium Packaging, Wrapping & Custom Logistics Solutions.
-      </p>
+      <p class="company-desc">{t.tagline}</p>
     </div>
-    
+
     <div class="footer-col">
       <h3>Links</h3>
       <ul class="footer-links">
-        <li><a href={`${prefix}/`}>Inicio</a></li>
+        <li><a href={`${prefix}/`}>{t.home}</a></li>
         <li><a href={`${prefix}/about`}>{t.about}</a></li>
-        <li><a href={`${prefix}/products`}>{t.products}</a></li>
+        <li><a href={`${prefix}/categories`}>{t.categories}</a></li>
         <li><a href={`${prefix}/contact`}>{t.contact}</a></li>
       </ul>
     </div>
-    
+
     <div class="footer-col">
       <h3>{t.contact}</h3>
       <address class="contact-info">
@@ -50,7 +52,7 @@ const currentYear = new Date().getFullYear();
       </address>
     </div>
   </div>
-  
+
   <div class="footer-bottom">
     <div class="container">
       <p>&copy; {currentYear} JD Pack Solutions. {t.rights}</p>
@@ -61,61 +63,83 @@ const currentYear = new Date().getFullYear();
 <style>
   .footer {
     background-color: var(--color-black);
-    color: var(--color-white);
+    color: var(--color-gray-200);
     padding-top: var(--spacing-lg);
   }
-  
+
   .footer-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: 2fr 1fr 1fr;
     gap: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
   }
-  
+
   .footer-logo {
     height: 40px;
     margin-bottom: var(--spacing-sm);
-    /* Invert colors or adjust if logo is dark, but ours is white and red */
   }
-  
+
   .company-desc {
-    color: var(--color-gray-200);
+    color: var(--color-gray-300);
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
-  
+
   .footer-col h3 {
     color: var(--color-white);
     margin-bottom: var(--spacing-sm);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
   }
-  
+
   .footer-links {
     list-style: none;
   }
-  
+
   .footer-links li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
   }
-  
+
   .footer-links a, .contact-info a {
-    color: var(--color-gray-200);
+    color: var(--color-gray-300);
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
   }
-  
+
   .footer-links a:hover, .contact-info a:hover {
     color: var(--color-primary);
   }
-  
+
   .contact-info {
     font-style: normal;
   }
-  
+
   .contact-info p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--color-gray-300);
   }
-  
+
   .footer-bottom {
-    background-color: #1a1718;
+    background-color: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.06);
     padding: var(--spacing-sm) 0;
     text-align: center;
-    color: var(--color-gray-200);
-    font-size: 0.9rem;
+    color: var(--color-gray-600);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+      text-align: center;
+    }
+
+    .footer-logo {
+      margin: 0 auto var(--spacing-sm);
+    }
   }
 </style>

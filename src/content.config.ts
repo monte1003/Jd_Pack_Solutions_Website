@@ -1,27 +1,31 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const productsCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/products" }),
+const categoriesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/categories" }),
   schema: z.object({
-    category: z.string(),
-    title_es: z.string(),
     title_en: z.string(),
-    description_es: z.string(),
+    title_es: z.string(),
     description_en: z.string(),
-    hero_image: z.string(),
-    features_es: z.array(z.string()).optional(),
-    features_en: z.array(z.string()).optional(),
-    gallery: z.array(z.object({
-      src: z.string(),
-      alt_es: z.string(),
-      alt_en: z.string()
-    })).optional(),
+    description_es: z.string(),
+    thumbnail: z.string(),
     order: z.number().default(0),
-    visible: z.boolean().default(true)
+    visible: z.boolean().default(true),
+    subcategories: z.array(z.object({
+      slug: z.string(),
+      title_en: z.string(),
+      title_es: z.string(),
+      description_en: z.string().optional(),
+      description_es: z.string().optional(),
+      images: z.array(z.object({
+        src: z.string(),
+        alt_en: z.string(),
+        alt_es: z.string(),
+      })),
+    })).optional(),
   }),
 });
 
 export const collections = {
-  products: productsCollection,
+  categories: categoriesCollection,
 };
